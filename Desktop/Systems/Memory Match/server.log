@@ -1,0 +1,5 @@
+[db] MONGO_URI not set - using in-memory MongoDB (data is not persisted)
+[db] connected
+[db] seeded default difficulties
+[db] created admin admin@playverse.local
+[server] http://localhost:4000
