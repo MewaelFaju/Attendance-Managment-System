@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attendance System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="loginScreen" class="screen active">
+      <div class="auth-container">
+        <div class="auth-card">
+          <div class="brand-block">
+            <div class="brand-mark">A</div>
+            <div>
+              <p class="eyebrow">WORKFORCE MANAGER</p>
+              <h1>Attendance System</h1>
+            </div>
+          </div>
+
+          <form id="loginForm" class="login-form">
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text" placeholder="Enter username" required />
+
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" placeholder="Enter password" required />
+
+            <button type="submit" class="primary-btn">Sign In</button>
+          </form>
+
+          <p id="loginMessage" class="message" aria-live="polite"></p>
+        </div>
+      </div>
+      <footer class="site-footer">
+        <p>&copy; 2026 Med Tech Company. All rights reserved. Powered by Mewael Faju.</p>
+        <nav class="social-links" aria-label="Social media links">
+          <a href="https://www.tiktok.com/foryou?lang=en" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><span class="social-logo">♪</span></a>
+          <a href="https://web.facebook.com/?_rdc=1&_rdr#" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><span class="social-logo">f</span></a>
+          <a href="#" aria-label="YouTube"><span class="social-logo">▶</span></a>
+          <a href="https://t.me/MewaelFaju" target="_blank" rel="noopener noreferrer" aria-label="Telegram"><span class="social-logo">➤</span></a>
+        </nav>
+      </footer>
+    </div>
+
+    <div id="dashboardScreen" class="screen hidden">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow small">Welcome back</p>
+          <h2 id="welcomeName">Employee</h2>
+        </div>
+        <button id="logoutBtn" class="secondary-btn" type="button">Logout</button>
+      </header>
+
+      <main class="dashboard">
+        <section class="hero-card">
+          <div>
+            <p class="eyebrow">Today</p>
+            <h3 id="todayDate">Loading...</h3>
+          </div>
+          <div class="status-badge" id="statusBadge">Not checked in</div>
+        </section>
+
+        <section class="quick-actions">
+          <button id="checkInBtn" class="primary-btn action-btn" type="button">Check In</button>
+          <button id="checkOutBtn" class="secondary-btn action-btn" type="button">Check Out</button>
+        </section>
+
+        <section class="panel attendance-selector-panel">
+          <div class="panel-header">
+            <h3>Mark Attendance</h3>
+          </div>
+
+          <div class="attendance-selector-row">
+            <div class="field-group selector-field">
+              <label for="attendanceEmployeeSelect">Employee</label>
+              <select id="attendanceEmployeeSelect" class="select-input"></select>
+            </div>
+            <div class="field-group selector-field">
+              <label for="attendanceStatusFilter">Filter Report</label>
+              <select id="attendanceStatusFilter" class="select-input">
+                <option value="all">All Employees</option>
+                <option value="present">Present</option>
+                <option value="late">Late</option>
+                <option value="absent">Absent</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <section class="employee-panel panel">
+          <div class="panel-header">
+            <h3>Employees</h3>
+          </div>
+
+          <form id="employeeForm" class="employee-form" hidden>
+            <div class="field-group">
+              <label for="employeeName">Employee Name</label>
+              <input id="employeeName" name="employeeName" type="text" placeholder="Enter full name" required />
+            </div>
+
+            <div class="field-group">
+              <label for="employeeEmail">Email</label>
+              <input id="employeeEmail" name="employeeEmail" type="email" placeholder="name@company.com" required />
+            </div>
+
+            <div class="field-group">
+              <label for="employeeRole">Role</label>
+              <input id="employeeRole" name="employeeRole" type="text" placeholder="e.g. Developer" required />
+            </div>
+
+            <div class="field-group">
+              <label for="employeeIdCard">ID Card</label>
+              <input id="employeeIdCard" name="employeeIdCard" type="text" placeholder="Employee ID" required />
+            </div>
+
+            <div class="field-group photo-field">
+              <label for="employeePhoto">Employee Photo</label>
+              <input id="employeePhoto" name="employeePhoto" type="file" accept="image/*" />
+            </div>
+
+            <button type="submit" class="primary-btn add-employee-btn">Add Employee</button>
+          </form>
+
+          <div class="employee-list-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Photo</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>ID Card</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="employeeTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="stats-grid">
+          <article class="stat-card highlight">
+            <span>Total Employees</span>
+            <strong id="totalEmployees">0</strong>
+          </article>
+          <article class="stat-card">
+            <span>Present Today</span>
+            <strong id="presentDays">0</strong>
+          </article>
+          <article class="stat-card">
+            <span>Late Arrivals</span>
+            <strong id="lateCount">0</strong>
+          </article>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <h3>Attendance Records</h3>
+            <div class="report-controls">
+              <select id="employeeFilter" class="select-input">
+                <option value="all">All Employees</option>
+              </select>
+              <button id="resetBtn" class="ghost-btn" type="button">Reset Data</button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>Date</th>
+                  <th>Check In (Date & Time)</th>
+                  <th>Check Out (Date & Time)</th>
+                  <th>Hours</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="attendanceTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel report-panel">
+          <div class="panel-header">
+            <h3>Attendance Report</h3>
+          </div>
+
+          <div class="report-summary-grid">
+            <article class="report-card">
+              <span>Total Records</span>
+              <strong id="reportTotal">0</strong>
+            </article>
+            <article class="report-card">
+              <span>Present</span>
+              <strong id="reportPresent">0</strong>
+            </article>
+            <article class="report-card">
+              <span>Late</span>
+              <strong id="reportLate">0</strong>
+            </article>
+            <article class="report-card highlight">
+              <span>Avg. Hours</span>
+              <strong id="reportAverage">0h</strong>
+            </article>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>Date</th>
+                  <th>Check In (Date & Time)</th>
+                  <th>Check Out (Date & Time)</th>
+                  <th>Hours</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="attendanceReportBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+      <footer class="site-footer dashboard-footer">
+        <p>&copy; 2026 Med Tech Company. All rights reserved. Powered by Mewael Faju.</p>
+        <nav class="social-links" aria-label="Social media links">
+          <a href="https://www.tiktok.com/foryou?lang=en" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><span class="social-logo">♪</span></a>
+          <a href="https://web.facebook.com/?_rdc=1&_rdr#" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><span class="social-logo">f</span></a>
+          <a href="#" aria-label="YouTube"><span class="social-logo">▶</span></a>
+          <a href="https://t.me/MewaelFaju" target="_blank" rel="noopener noreferrer" aria-label="Telegram"><span class="social-logo">➤</span></a>
+        </nav>
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

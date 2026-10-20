@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#4f46e5" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Attendance" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" type="image/png" href="icons/icon-192.png" />
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+    <title>Med Tech Com Trading Employees Attendance System</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="theme.js"></script>
+  </head>
+  <body>
+    <div id="loginScreen" class="screen">
+      <div class="floating-actions">
+        <button type="button" class="ghost-btn small-btn lang-btn" aria-label="Language">አማርኛ</button>
+        <button type="button" class="ghost-btn small-btn theme-btn" aria-label="Toggle dark mode">Dark mode</button>
+      </div>
+      <div class="auth-container">
+        <div class="auth-card">
+          <div class="brand-block">
+            <div class="brand-mark">A</div>
+            <div>
+              <p class="eyebrow">WORKFORCE MANAGER</p>
+              <h1>Med Tech Com Trading Employees Attendance System</h1>
+            </div>
+          </div>
+
+          <form id="loginForm" class="login-form">
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text" placeholder="Enter username" autocomplete="off" autocapitalize="none" spellcheck="false" required />
+
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" placeholder="Enter password" autocomplete="new-password" required />
+
+            <button type="submit" class="primary-btn" id="loginBtn">Sign In</button>
+          </form>
+
+          <p id="loginMessage" class="message" aria-live="polite"></p>
+        </div>
+      </div>
+      <footer class="site-footer">
+        <p>&copy; 2026 Med Tech Company. All rights reserved. Powered by Mewael Faju.</p>
+        <nav class="social-links" aria-label="Social media links">
+          <a href="https://www.tiktok.com/foryou?lang=en" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4v10.2a4.8 4.8 0 1 1-3.5-4.63v2.55a2.35 2.35 0 1 0 1.05 2.08V4H15Z" fill="currentColor"/><path d="M15 4c.35 1.72 1.45 2.82 3.2 3.2v2.35c-1.25-.12-2.32-.56-3.2-1.3V4Z" fill="currentColor"/></svg></a>
+          <a href="https://web.facebook.com/?_rdc=1&_rdr#" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.6 21v-8h2.7l.4-3h-3.1V8.1c0-.87.24-1.46 1.5-1.46h1.7V4a22 22 0 0 0-2.45-.13c-2.43 0-4.1 1.48-4.1 4.2V10H7.5v3h2.75v8h3.35Z" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.2 7.1a2.7 2.7 0 0 0-1.9-1.9C17.6 4.7 12 4.7 12 4.7s-5.6 0-7.3.5a2.7 2.7 0 0 0-1.9 1.9C2.3 8.8 2.3 12 2.3 12s0 3.2.5 4.9a2.7 2.7 0 0 0 1.9 1.9c1.7.5 7.3.5 7.3.5s5.6 0 7.3-.5a2.7 2.7 0 0 0 1.9-1.9c.5-1.7.5-4.9.5-4.9s0-3.2-.5-4.9Z" fill="currentColor"/><path d="m10 15.5 5-3.5-5-3.5v7Z" fill="white"/></svg></a>
+          <a href="https://t.me/MewaelFaju" target="_blank" rel="noopener noreferrer" aria-label="Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21.5 4.6-3.2 15.1c-.24 1.07-.87 1.33-1.76.83l-4.85-3.57-2.34 2.25c-.26.26-.48.48-.98.48l.35-4.94 8.99-8.12c.39-.35-.09-.55-.61-.2L6 13.56l-4.76-1.49c-1.04-.32-1.06-1.04.22-1.54L20.08 3.6c.87-.32 1.63.2 1.42 1Z" fill="currentColor"/></svg></a>
+        </nav>
+      </footer>
+    </div>
+
+    <div id="dashboardScreen" class="screen hidden">
+      <header class="topbar">
+        <div>
+          <p class="topbar-title">Med Tech Com Trading Employees Attendance System</p>
+          <p class="eyebrow small">Welcome back</p>
+          <h2 id="welcomeName">Employee</h2>
+        </div>
+        <div class="topbar-actions">
+          <button type="button" class="ghost-btn small-btn lang-btn" aria-label="Language">አማርኛ</button>
+          <button type="button" class="ghost-btn small-btn theme-btn" aria-label="Toggle dark mode">Dark mode</button>
+          <a id="connectLink" class="ghost-btn small-btn admin-only" href="/connect" target="_blank" rel="noopener">Phone access</a>
+          <button id="changePasswordBtn" class="ghost-btn small-btn" type="button">Change password</button>
+          <button id="logoutBtn" class="secondary-btn" type="button">Logout</button>
+        </div>
+      </header>
+
+      <main class="dashboard">
+        <section class="hero-card">
+          <div>
+            <p class="eyebrow">Today</p>
+            <h3 id="todayDate">Loading...</h3>
+            <p class="current-time" id="todayTime">00:00:00</p>
+            <p class="schedule" id="todayGreg"></p>
+            <p class="schedule" id="scheduleText"></p>
+          </div>
+          <div class="status-badge" id="statusBadge">Not checked in</div>
+        </section>
+
+        <section class="quick-actions">
+          <button id="checkInBtn" class="primary-btn action-btn" type="button">Check In</button>
+          <button id="checkOutBtn" class="secondary-btn action-btn" type="button">Check Out</button>
+          <button id="fieldworkBtn" class="ghost-btn action-btn admin-only" type="button">Mark FieldWork</button>
+          <button id="permissionBtn" class="ghost-btn action-btn admin-only" type="button">Mark Permission</button>
+        </section>
+
+        <section class="panel attendance-selector-panel">
+          <div class="panel-header">
+            <h3>Mark Attendance</h3>
+          </div>
+
+          <div class="attendance-selector-row">
+            <div class="field-group selector-field">
+              <label for="attendanceEmployeeSelect">Employee</label>
+              <select id="attendanceEmployeeSelect" class="select-input"></select>
+            </div>
+            <div class="field-group selector-field filter-control">
+              <label for="attendanceStatusFilter">Filter Report</label>
+              <select id="attendanceStatusFilter" class="select-input">
+                <option value="all">All Records</option>
+                <option value="present">Present</option>
+                <option value="late">Late</option>
+                <option value="fieldwork">FieldWork</option>
+                <option value="permission">Permission (today)</option>
+                <option value="absent">Absent (today)</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <section class="stats-grid">
+          <article class="stat-card highlight">
+            <span>Total Employees</span>
+            <strong id="totalEmployees">0</strong>
+          </article>
+          <article class="stat-card admin-only">
+            <span>Present Today</span>
+            <strong id="presentDays">0</strong>
+          </article>
+          <article class="stat-card admin-only">
+            <span>Late Arrivals Today</span>
+            <strong id="lateCount">0</strong>
+          </article>
+          <article class="stat-card admin-only">
+            <span>Permission Today</span>
+            <strong id="permissionCount">0</strong>
+          </article>
+          <article class="stat-card admin-only">
+            <span>FieldWork Today</span>
+            <strong id="fieldworkCount">0</strong>
+          </article>
+          <article class="stat-card admin-only">
+            <span>Not In Yet</span>
+            <strong id="absentCount">0</strong>
+          </article>
+        </section>
+
+        <section class="insights-grid">
+          <article class="panel overview-panel">
+            <div class="panel-header">
+              <h3>Today's attendance</h3>
+            </div>
+            <p class="hero-figure" id="rateFigure">—</p>
+            <p class="figure-caption" id="rateCaption">No employees yet</p>
+            <div class="stack-bar" id="todayBar" role="img" aria-label="Today's attendance breakdown"></div>
+            <ul class="legend" id="todayLegend"></ul>
+            <dl class="facts" id="todayFacts"></dl>
+          </article>
+
+          <article class="panel trend-panel">
+            <div class="panel-header">
+              <div>
+                <h3>Last 7 days</h3>
+                <p class="subtitle">People who checked in, by day</p>
+              </div>
+              <button id="trendViewBtn" class="ghost-btn small-btn" type="button" aria-pressed="false">View as table</button>
+            </div>
+            <div id="trendChart" class="chart-canvas"></div>
+            <div id="trendTableWrap" class="table-wrap" hidden>
+              <table>
+                <thead>
+                  <tr><th>Date</th><th>On time</th><th>Late</th><th>Total</th></tr>
+                </thead>
+                <tbody id="trendTableBody"></tbody>
+              </table>
+            </div>
+            <ul class="legend" id="trendLegend"></ul>
+          </article>
+        </section>
+
+        <section class="panel team-panel admin-only">
+          <div class="panel-header">
+            <div>
+              <h3>Team right now</h3>
+              <p class="subtitle">Who is in, who has left, who hasn't arrived</p>
+            </div>
+          </div>
+          <div class="team-grid" id="teamGrid"></div>
+        </section>
+
+        <section class="employee-panel panel admin-only">
+          <div class="panel-header">
+            <h3>Employees</h3>
+            <button id="toggleEmployeeFormBtn" class="ghost-btn" type="button">+ Add Employee</button>
+          </div>
+
+          <form id="employeeForm" class="employee-form" hidden>
+            <div class="field-group">
+              <label for="employeeName">Employee Name</label>
+              <input id="employeeName" name="employeeName" type="text" placeholder="Enter full name" maxlength="100" required />
+            </div>
+
+            <div class="field-group">
+              <label for="employeeEmail">Email</label>
+              <input id="employeeEmail" name="employeeEmail" type="email" placeholder="name@company.com" maxlength="150" required />
+            </div>
+
+            <div class="field-group">
+              <label for="employeeRole">Role</label>
+              <input id="employeeRole" name="employeeRole" type="text" placeholder="e.g. Developer" maxlength="60" required />
+            </div>
+
+            <div class="field-group">
+              <label for="employeeIdCard">ID Card</label>
+              <input id="employeeIdCard" name="employeeIdCard" type="text" placeholder="Employee ID" maxlength="40" required />
+            </div>
+
+            <div class="field-group">
+              <label for="employeePassword">Login Password <span class="hint">(optional, min 8)</span></label>
+              <input id="employeePassword" name="employeePassword" type="password" placeholder="Lets the employee sign in with their email" minlength="8" autocomplete="new-password" />
+            </div>
+
+            <div class="field-group">
+              <label for="employeeCanFilter">Report filters</label>
+              <label class="check-row"><input id="employeeCanFilter" type="checkbox" /> Can filter reports <span class="hint">(needs a login)</span></label>
+            </div>
+
+            <div class="field-group photo-field">
+              <label for="employeePhoto">Employee Photo</label>
+              <input id="employeePhoto" name="employeePhoto" type="file" accept="image/png,image/jpeg,image/webp,image/gif" />
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="primary-btn add-employee-btn" id="employeeSubmitBtn">Add Employee</button>
+              <button type="button" class="ghost-btn cancel-edit-btn" id="cancelEmployeeEditBtn">Cancel</button>
+            </div>
+          </form>
+
+          <div class="employee-list-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Photo</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>ID Card</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="employeeTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel requests-panel">
+          <div class="panel-header">
+            <div>
+              <h3>Permission requests</h3>
+              <p class="subtitle" id="requestsCaption">Ask your manager for permission</p>
+            </div>
+            <button id="newRequestBtn" class="ghost-btn employee-only" type="button">+ Ask permission</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>Date</th>
+                  <th>Reason</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="requestsBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <h3>Attendance Records</h3>
+            <div class="report-controls">
+              <select id="employeeFilter" class="select-input admin-only" aria-label="Filter by employee">
+                <option value="all">All Employees</option>
+              </select>
+              <select id="rangePreset" class="select-input filter-control" aria-label="Date range">
+                <option value="all">All time</option>
+                <option value="today">Today</option>
+                <option value="week">Last 7 days</option>
+                <option value="month">This month</option>
+                <option value="lastMonth">Last month</option>
+                <option value="custom">Custom range</option>
+              </select>
+              <input id="dateFrom" class="filter-control" type="date" aria-label="From date" />
+              <input id="dateTo" class="filter-control" type="date" aria-label="To date" />
+              <button id="exportBtn" class="ghost-btn" type="button">Download CSV</button>
+              <button id="resetBtn" class="ghost-btn admin-only" type="button">Reset Data</button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>Date</th>
+                  <th>Check In</th>
+                  <th>Check Out</th>
+                  <th>Hours</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="attendanceTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel report-panel">
+          <div class="panel-header">
+            <h3>Attendance Report</h3>
+            <div class="report-controls">
+              <select id="reportPeriod" class="select-input" aria-label="Report period">
+                <option value="week">Weekly (last 7 days)</option>
+                <option value="month">Monthly (this month)</option>
+                <option value="lastMonth">Monthly (last month)</option>
+              </select>
+              <select id="reportFormat" class="select-input" aria-label="File format">
+                <option value="xlsx">Excel (.xlsx)</option>
+                <option value="docx">Word (.docx)</option>
+                <option value="pdf">PDF (.pdf)</option>
+              </select>
+              <button id="reportDownloadBtn" class="primary-btn" type="button">Download Report</button>
+            </div>
+          </div>
+
+          <div class="report-summary-grid">
+            <article class="report-card">
+              <span>Total Records</span>
+              <strong id="reportTotal">0</strong>
+            </article>
+            <article class="report-card admin-only">
+              <span>On Time</span>
+              <strong id="reportPresent">0</strong>
+            </article>
+            <article class="report-card admin-only">
+              <span>Late</span>
+              <strong id="reportLate">0</strong>
+            </article>
+            <article class="report-card highlight">
+              <span>Avg. Hours</span>
+              <strong id="reportAverage">0.0h</strong>
+            </article>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>Date</th>
+                  <th>Check In</th>
+                  <th>Check Out</th>
+                  <th>Hours</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="attendanceReportBody"></tbody>
+            </table>
+          </div>
+        </section>
+        <section class="panel monthly-panel">
+          <div class="panel-header">
+            <div>
+              <h3>Monthly summary</h3>
+              <p class="subtitle" id="monthlyCaption">Days worked and hours per employee</p>
+            </div>
+            <div class="report-controls">
+              <input id="monthInput" type="month" aria-label="Month" />
+              <button id="monthlyExportBtn" class="ghost-btn" type="button">Download CSV</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>Days worked</th>
+                  <th>On time</th>
+                  <th>Late</th>
+                  <th>Absent days</th>
+                  <th>Total hours</th>
+                  <th>Avg. hours / day</th>
+                </tr>
+              </thead>
+              <tbody id="monthlyBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer dashboard-footer">
+        <p>&copy; 2026 Med Tech Company. All rights reserved. Powered by Mewael Faju.</p>
+      </footer>
+    </div>
+
+    <dialog id="passwordDialog">
+      <form id="passwordForm" method="dialog" class="dialog-form">
+        <h3>Change password</h3>
+        <div class="field-group">
+          <label for="currentPassword">Current password</label>
+          <input id="currentPassword" type="password" autocomplete="current-password" required />
+        </div>
+        <div class="field-group">
+          <label for="newPassword">New password <span class="hint">(min 8 characters)</span></label>
+          <input id="newPassword" type="password" autocomplete="new-password" minlength="8" maxlength="72" required />
+        </div>
+        <div class="field-group">
+          <label for="confirmPassword">Confirm new password</label>
+          <input id="confirmPassword" type="password" autocomplete="new-password" minlength="8" maxlength="72" required />
+        </div>
+        <p id="passwordMessage" class="message" aria-live="polite"></p>
+        <div class="dialog-actions">
+          <button type="button" class="ghost-btn" data-close>Cancel</button>
+          <button type="submit" class="primary-btn" id="passwordSubmitBtn">Update password</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="requestDialog">
+      <form id="requestForm" method="dialog" class="dialog-form">
+        <h3>Ask permission</h3>
+        <div class="field-group">
+          <label for="requestDate">Date</label>
+          <input id="requestDate" type="date" required />
+        </div>
+        <div class="field-group">
+          <label for="requestReason">Reason</label>
+          <textarea id="requestReason" rows="4" maxlength="500" required></textarea>
+        </div>
+        <p id="requestMessage" class="message" aria-live="polite"></p>
+        <div class="dialog-actions">
+          <button type="button" class="ghost-btn" data-close>Cancel</button>
+          <button type="submit" class="primary-btn" id="requestSubmitBtn">Send request</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="decisionDialog">
+      <form id="decisionForm" method="dialog" class="dialog-form">
+        <h3>Answer request</h3>
+        <p class="subtitle" id="decisionWho"></p>
+        <p id="decisionReason"></p>
+        <div class="field-group">
+          <label for="decisionNote">Note to employee <span class="hint">(optional)</span></label>
+          <input id="decisionNote" type="text" maxlength="300" />
+        </div>
+        <p id="decisionMessage" class="message" aria-live="polite"></p>
+        <div class="dialog-actions">
+          <button type="button" class="ghost-btn" data-close>Cancel</button>
+          <button type="button" class="secondary-btn" id="declineBtn">Decline</button>
+          <button type="button" class="primary-btn" id="approveBtn">Accept</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="recordDialog">
+      <form id="recordForm" method="dialog" class="dialog-form">
+        <h3>Edit attendance</h3>
+        <p class="subtitle" id="recordWho"></p>
+        <p class="subtitle">(Gregorian date, 24-hour clock)</p>
+        <div class="field-group">
+          <label for="recordCheckIn">Check in</label>
+          <input id="recordCheckIn" type="datetime-local" required />
+        </div>
+        <div class="field-group">
+          <label for="recordCheckOut">Check out <span class="hint">(leave empty if still in)</span></label>
+          <input id="recordCheckOut" type="datetime-local" />
+        </div>
+        <p id="recordMessage" class="message" aria-live="polite"></p>
+        <div class="dialog-actions">
+          <button type="button" class="ghost-btn" data-close>Cancel</button>
+          <button type="submit" class="primary-btn" id="recordSubmitBtn">Save changes</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div id="chartTip" class="chart-tip hidden" role="tooltip"></div>
+    <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+    <script src="i18n.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

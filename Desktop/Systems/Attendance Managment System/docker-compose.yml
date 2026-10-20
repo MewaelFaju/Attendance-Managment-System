@@ -1,0 +1,44 @@
+# Plain:   docker compose up -d --build          -> http://localhost:3000
+# HTTPS:   set DOMAIN and TRUST_PROXY=1 in .env, then
+#          docker compose --profile https up -d --build   -> https://$DOMAIN (Caddy gets a certificate automatically)
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    environment:
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      # Only used the first time, to create the admin. If empty, a random one is printed in `docker compose logs app`.
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      JWT_SECRET: ${JWT_SECRET:-}
+      WORK_START: ${WORK_START:-08:45}
+      WORK_END: ${WORK_END:-17:30}
+      WORK_END_SAT: ${WORK_END_SAT:-16:30}
+      WORK_DAYS: ${WORK_DAYS:-1,2,3,4,5,6}
+      TZ: ${TZ:-UTC}
+      # 1 only when running behind the Caddy service below, otherwise clients could spoof their IP.
+      TRUST_PROXY: ${TRUST_PROXY:-0}
+    volumes:
+      - data:/app/data
+      - backups:/app/backups
+    ports:
+      - "${BIND_ADDRESS:-127.0.0.1}:3000:3000"
+
+  caddy:
+    image: caddy:2-alpine
+    profiles: ["https"]
+    restart: unless-stopped
+    environment:
+      DOMAIN: ${DOMAIN:?Set DOMAIN in .env to use the https profile}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - app
+
+volumes:
+  data:
+  backups:
+  caddy_data:
